@@ -2,41 +2,41 @@ package backjoon.algo.fc.graph;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class 단지번호붙이기 {
-    static FastReader scan = new FastReader();
+
+    static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
-    static int N, group_cnt;
-    static int[][] dir = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    static boolean[][] visit;
-    static int[][] adj;
-    static ArrayList<Integer> group;
+
     static String[] a;
+    static boolean[][] visited;
+    static int[][] dir = {{-1, 0}, {1, 0},{0, -1},{0, 1}}; // 이 형태는 외우자
+    static int N, group_cnt;
+    static ArrayList<Integer> group = new ArrayList<>();
 
     public static void main(String[] args) {
-
         input();
         pro();
-
     }
-    public static void input() {
-        N = scan.nextInt();
+
+    public static void input(){
+
+        N = sc.nextInt();
         a = new String[N];
-
-        for(int i = 0; i < N; i++) {
-            a[i] = scan.nextLine();
-        }
-
-        visit = new boolean[N][N];
+        for (int i = 0; i < N; i++)
+            a[i] = sc.nextLine();
+        visited = new boolean[N][N];
     }
 
     public static void pro() {
 
         group = new ArrayList<>();
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                if(visit[i][j] == false && a[i].charAt(j) == '1') {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!visited[i][j] && a[i].charAt(j) == '1') {
+                    // 갈 수 있는 칸인데, 이미 방문처리 된, 즉 새롭게 만난 단지인 경우!
                     group_cnt = 0;
                     dfs(i, j);
                     group.add(group_cnt);
@@ -44,31 +44,26 @@ public class 단지번호붙이기 {
             }
         }
 
-        sb.append(group.size()).append('\n');
-        for(int n : group) {
-            sb.append(n).append('\n');
-        }
-        System.out.println(sb);
+        Collections.sort(group);
+        sb.append(group.size());
+        System.out.println(sb.toString());
+        group.stream()
+                .forEach(System.out::println);
     }
 
     public static void dfs(int x, int y) {
+
         group_cnt++;
-        visit[x][y] = true;
-
-        for(int k = 0; k < dir.length; k++) {
-            int nx = dir[k][0] + x;
-            int ny = dir[k][1] + y;
-
-            if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue; // 지도를 벗어남
-            if(a[nx].charAt(ny) == '0') continue; // 0 이면 방문할 필요 없음
-            if(visit[nx][ny]) continue; // 방문했던 곳이면 방문할 필요 없음
-
+        visited[x][y] = true;
+        for (int k = 0; k < 4; k++) {
+            int nx = x + dir[k][0];
+            int ny = y + dir[k][1];
+            if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;  // 지도를 벗어나는 곳으로 가는가?
+            if (a[nx].charAt(ny) == '0') continue;  // 갈 수 있는 칸인지 확인해야 한다.
+            if (visited[nx][ny]) continue;  // 이미 방문한 적이 있는 곳인가?
             dfs(nx, ny);
         }
-
-
     }
-
     static class FastReader {
         BufferedReader br;
         StringTokenizer st;
@@ -114,4 +109,5 @@ public class 단지번호붙이기 {
             return str;
         }
     }
+
 }
