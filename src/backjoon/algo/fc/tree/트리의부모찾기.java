@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class 트리의부모찾기 {
-    static StringBuilder sb = new StringBuilder();
-    static FastReader scan = new FastReader();
-    static ArrayList<Integer>[] adj;
 
+    static FastReader sc = new FastReader();
+    static StringBuilder sb = new StringBuilder();
+
+    static int N;
+    static ArrayList<Integer>[] adj;
+    static int[] parent;
 
     public static void main(String[] args) {
         input();
@@ -17,14 +20,36 @@ public class 트리의부모찾기 {
 
     public static void input() {
 
+        N = sc.nextInt();
+        adj = new ArrayList[N + 1];
+        parent = new int[N + 1];
+        for (int i = 1; i <= N; i++) adj[i] = new ArrayList<>();
 
+        // 인접 리스트 구성하기
+        for (int i = 1; i < N; i++) {
+            int x = sc.nextInt(), y = sc.nextInt();
+            adj[x].add(y);
+            adj[y].add(x);
+        }
     }
 
     public static void pro() {
+        dfs(1, -1);
+        for(int i = 2; i <= N; i++)
+            sb.append(parent[i]).append("\n");
 
+        System.out.println(sb.toString());
 
     }
 
+    public static void dfs(int x, int par) {
+        System.out.println("x : " + x + ", par : " + par);
+        for(int y : adj[x]) {
+            if(y == par) continue;
+            parent[y] = x;
+            dfs(y, x);
+        }
+    }
 
     static class FastReader {
         BufferedReader br;
