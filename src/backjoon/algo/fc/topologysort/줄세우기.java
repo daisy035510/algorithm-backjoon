@@ -1,71 +1,68 @@
-package backjoon.algo.fc.graph;
+package backjoon.algo.fc.topologysort;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class 줄세우기 {
-
     static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
     static int N, M;
-    static ArrayList<Integer>[] adj;
     static int[] indeg;
-
+    static ArrayList<Integer>[] adj;
     public static void main(String[] args) {
         input();
         pro();
     }
-    public static void input() {
+    public static void input(){
 
-        N = sc.nextInt();
-        M = sc.nextInt();
+         N = sc.nextInt();
+         M = sc.nextInt();
+         adj = new ArrayList[N+1];
+         indeg = new int[N+1];
 
-        adj = new ArrayList[N + 1];
-        indeg = new int[N + 1];
+         for(int i = 0; i <= N; i++) {
+             adj[i] = new ArrayList<>();
+         }
 
-        for(int i = 1; i <= N; i++) {
-            adj[i] = new ArrayList<>();
-        }
+         for(int i = 1; i <= M; i++) {
 
-        for(int i = 0; i < M; i++) {
+             int x = sc.nextInt();
+             int y = sc.nextInt();
 
-            int x = sc.nextInt();
-            int y = sc.nextInt();
+             adj[x].add(y);
+             indeg[y]++;
+         }
 
-            adj[x].add(y);
-            // indegree 차수 계산하기
-            indeg[y]++;
-        }
+       // System.out.println(Arrays.deepToString(adj));
+       // System.out.println(Arrays.toString(indeg));
     }
 
     public static void pro() {
 
-        Deque<Integer> queue = new LinkedList<>();
+        Deque<Integer> dequeue = new LinkedList<>();
 
-        // 제일 앞에 "정렬가능한" 정점 찾기
         for(int i = 1; i <= N; i++) {
             if(indeg[i] == 0) {
-                queue.add(i);
+                dequeue.add(i);
             }
         }
 
-        // 정렬될 수 있는 정점이 있다면??
-        // 1. 정렬결과에 추가하기
-        // 2. 정점과 연결된 간선 제거하기
-        // 3. 새롭게 정렬될 수 있는 정점 Queue에 추가하기
-        while(!queue.isEmpty()) {
-            int x = queue.poll();
-            sb.append(x).append(' ');
 
-            for(int y : adj[x]) {
+        while(!dequeue.isEmpty()) {
+
+            int n = dequeue.poll();
+
+            for(int y : adj[n]) {
                 indeg[y]--;
-                if(indeg[y] == 0) queue.add(y);
+                if(indeg[y] == 0){
+                    dequeue.add(y);
+                }
             }
+            System.out.println(n);
         }
-        System.out.println(sb);
+
+
+
     }
 
     static class FastReader {
