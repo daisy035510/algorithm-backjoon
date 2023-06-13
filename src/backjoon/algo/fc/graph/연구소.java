@@ -1,49 +1,43 @@
-package backjoon.algo.fc.exhaustivesearch;
+package backjoon.algo.fc.graph;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class N과M_2 {
+public class 연구소 {
 
-    static N과M_1.FastReader sc = new N과M_1.FastReader();
+    static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
+
     static int N, M;
-    static int[] selected, used;
+    static int[][] adj;
+    static boolean[][] visited;
+    static int[][] dir = {{-1, 0},{1, 0},{0, -1},{0, 1}};
+
     public static void main(String[] args) {
+
         input();
-        rec_func(1);
-        System.out.println(sb.toString());
+        pro();
     }
 
     public static void input(){
+
         N = sc.nextInt();
         M = sc.nextInt();
-        selected = new int[M + 1];
-        used = new int[N + 1];
-    }
 
-    public static void rec_func(int k) {
+        adj = new int[N+1][N+1];
+        visited = new boolean[N+1][N+1];
 
-        if(k == (M + 1)) {
-            for(int i = 1; i <= M; i++) sb.append(selected[i]).append(" ");
-            sb.append("\n");
-        } else {
-
-
-            int start = selected[k-1];
-            if(start == 0) start = 1;
-            for(int cand = start; cand <= N; cand++) {
-
-                if(used[cand] == 1) {
-                    continue;
-                }
-
-                selected[k] = cand;
-                rec_func(k + 1);
-                used[k] = 0;
+        for(int i = 1; i <= N; i++) {
+            for(int j = 1; j <= M; j++) {
+                adj[i][j] = sc.nextInt();
             }
         }
+
+//        System.out.println(Arrays.deepToString(adj));
+    }
+
+    public static void pro() {
 
     }
 
