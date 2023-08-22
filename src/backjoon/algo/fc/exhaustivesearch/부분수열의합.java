@@ -1,27 +1,28 @@
 package backjoon.algo.fc.exhaustivesearch;
 
-import backjoon.algo.fc.cmm.Format;
-
 import java.io.*;
-import java.util.List;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 부분수열의합 {
+class 부분수열의합 {
 
     static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
     static int N, S;
     static int[] arr;
-    static int rslt = 0;
+    static int RLST = 0;
     public static void main(String[] args) {
         input();
         pro();
+        System.out.println("RLST : " + RLST);
     }
 
     public static void input(){
+
         N = sc.nextInt();
         S = sc.nextInt();
+        arr = new int[N];
 
         for(int i = 0; i < N; i++) {
             arr[i] = sc.nextInt();
@@ -30,14 +31,26 @@ public class 부분수열의합 {
 
     public static void pro() {
 
-        // 정렬
-        List<Integer> list = arr.;
+        // 1. 정렬
+        Arrays.sort(arr);
+
+        // 2. 부분수열 갯수
 
         int sum = 0;
-        int cnt = 2;
-        
-        for(int i = 1; i < N; i++) {
+        int start = 1;
 
+        while(start < N) {
+            for(int i = start; i < N; i++) {
+                sum += arr[i];
+                if(sum == S) {
+                    RLST++;
+                    break;
+                }
+            }
+            
+            // 초기화
+            sum = 0;
+            start++;
         }
     }
 

@@ -1,40 +1,53 @@
 package backjoon.algo.fc.exhaustivesearch;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class N과M_3 {
+public class N과M_4 {
+
+    static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
+
     static int N, M;
     static int[] selected;
-
-    static void input() {
-        FastReader scan = new FastReader();
-        N = scan.nextInt();
-        M = scan.nextInt();
-        selected = new int[M + 1];
-    }
-
     public static void main(String[] args) {
         input();
         rec_func(1);
         System.out.println(sb.toString());
     }
 
-    public static void rec_func(int n) {
+    public static void input(){
+        N = sc.nextInt();
+        M = sc.nextInt();
+        selected = new int[M + 1];
+    }
+
+    public static void rec_func(int n){
 
         if(n == (M + 1)) {
+
+            int[] copy = Arrays.copyOf(selected, selected.length);
+            Arrays.sort(copy);
+
+            for(int i = 1; i <= M; i++) {
+                if(copy[i] != selected[i]) {
+                    return;
+                }
+            }
+
             for(int i = 1; i <= M; i++) sb.append(selected[i]).append(' ');
             sb.append('\n');
+
         } else {
-            for(int k = 1; k <= N; k++){
-                selected[n] = k;
+
+            for(int i = 1; i <= N; i++) {
+                selected[n] = i;
                 rec_func(n + 1);
                 selected[n] = 0;
             }
         }
     }
-
 
     static class FastReader {
         BufferedReader br;
