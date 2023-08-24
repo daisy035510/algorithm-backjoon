@@ -1,56 +1,48 @@
 package backjoon.algo.fc.exhaustivesearch;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class 부분수열의합 {
+public class 부분수열의합 {
 
     static FastReader sc = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
     static int N, S;
     static int[] arr;
-    static int RLST = 0;
+    static int CNT = 0;
     public static void main(String[] args) {
         input();
-        pro();
-        System.out.println("RLST : " + RLST);
+        rec_func(1, 0);
+        
+        // 진부분집합
+        if (S == 0){
+            CNT--;
+        }
+
+        System.out.println(CNT);
     }
 
     public static void input(){
 
         N = sc.nextInt();
         S = sc.nextInt();
-        arr = new int[N];
+        arr = new int[N + 1];
 
-        for(int i = 0; i < N; i++) {
+        for(int i = 1; i <= N; i++) {
             arr[i] = sc.nextInt();
         }
     }
 
-    public static void pro() {
+    public static void rec_func(int k, int value) {
 
-        // 1. 정렬
-        Arrays.sort(arr);
-
-        // 2. 부분수열 갯수
-
-        int sum = 0;
-        int start = 1;
-
-        while(start < N) {
-            for(int i = start; i < N; i++) {
-                sum += arr[i];
-                if(sum == S) {
-                    RLST++;
-                    break;
-                }
-            }
-            
-            // 초기화
-            sum = 0;
-            start++;
+        if(k == (N + 1)) {
+            if(value == S) CNT++;
+        } else {
+            // include
+            rec_func(k + 1, value + arr[k]);
+            // not include
+            rec_func(k + 1, value);
         }
     }
 
