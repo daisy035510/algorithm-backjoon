@@ -33,11 +33,10 @@ public class 국영수 {
 
         Collections.sort(studentList);
 
-        studentList.stream()
-                    .forEach(s-> {
-                        System.out.print(s.name);
-                        System.out.println();
-                    });
+        studentList.forEach(s-> {
+            System.out.print(s.name);
+            System.out.println();
+        });
     }
 
     static class FastReader {
@@ -100,9 +99,9 @@ public class 국영수 {
         }
         @Override
         public int compareTo(Student other) {
-            if(this.korean != other.korean) return other.korean - this.korean;
-            if(this.english != other.english) return english - other.english;
-            if(this.math != other.math) return other.math - this.math;
+            if(this.korean != other.korean) return Integer.compare(other.korean, this.korean);
+            if(this.english != other.english) return Integer.compare(english, other.english);
+            if(this.math != other.math) return Integer.compare(other.math, this.math);
             return name.compareTo(other.name);
         }
     }
